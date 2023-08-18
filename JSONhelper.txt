@@ -1,0 +1,27 @@
+// Отправка на сервер
+[
+    {
+        "action" : "SENDBTN",
+        "id" : 1,
+        "value" : 0
+    },
+    {
+        "action" : "SENDSERVO",
+        "id" : 1,
+        "value" : 180
+    }
+]
+
+// Принятие на клиенте
+[
+    {
+        "action" : "GETBTN",
+        "id" : 1,
+        "value" : 0
+    },
+    {
+        "action" : "GETSERVO",
+        "id" : 1,
+        "value" : 180
+    }
+]

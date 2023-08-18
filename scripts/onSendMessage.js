@@ -8,17 +8,25 @@ const act = require('./constants');
  */
 function onSendMessageUnity(message, arduino, unity) {
     try {
-        const jsonMessage = JSON.parse(message);
-        // Обработка запрашиваемого действия от клиента
-        // eslint-disable-next-line max-len
-        console.log(`Unity message: ${jsonMessage.action}: ${jsonMessage.data}`);
-        switch (jsonMessage.action) {
-        case act.ActionCall.ECHO:
-            actions.echoActionUnity(arduino, jsonMessage.data);
-            break;
-        default:
-            console.log('Unknown command from unity!!!');
-            unity.send('Unknown command!!!');
+        if (message != '') {
+            const jsonMessage = JSON.parse(message);
+            // Обработка запрашиваемого действия от клиента
+            // eslint-disable-next-line max-len
+            console.log(`Unity message: ${jsonMessage.action}: ${jsonMessage.data}`);
+
+            switch (jsonMessage.action) {
+            case act.ActionCall.ECHO:
+                if (arduino != null) {
+                    actions.echoActionUnity(arduino, jsonMessage.data);
+                }
+
+                break;
+            default:
+                console.log('Unknown command from unity!!!');
+                unity.send('Unknown command!!!');
+            }
+        } else {
+            console.log('Unity message: empty');
         }
     } catch (error) {
         console.log('Error', error);
@@ -33,17 +41,25 @@ function onSendMessageUnity(message, arduino, unity) {
  */
 function onSendMessageArduino(message, arduino, unity) {
     try {
-        const jsonMessage = JSON.parse(message);
-        // Обработка запрашиваемого действия от клиента
-        // eslint-disable-next-line max-len
-        console.log(`Arduino message: ${jsonMessage.action}: ${jsonMessage.data}`);
-        switch (jsonMessage.action) {
-        case act.ActionCall.ECHO:
-            actions.echoActionArduino(unity, jsonMessage.data);
-            break;
-        default:
-            console.log('Unknown command from arduino!!!');
-            arduino.send('Unknown command!!!');
+        if (message != '') {
+            const jsonMessage = JSON.parse(message);
+            // Обработка запрашиваемого действия от клиента
+            // eslint-disable-next-line max-len
+            console.log(`Arduino message: ${jsonMessage.action}: ${jsonMessage.data}`);
+
+            switch (jsonMessage.action) {
+            case act.ActionCall.ECHO:
+                if (unity != null) {
+                    actions.echoActionArduino(unity, jsonMessage.data);
+                    break;
+                }
+
+            default:
+                console.log('Unknown command from arduino!!!');
+                arduino.send('Unknown command!!!');
+            }
+        } else {
+            console.log('Arduino message: empty');
         }
     } catch (error) {
         console.log('Error', error);
