@@ -1,5 +1,18 @@
-const ActionCall = {
+const ActionCallOnSend = {
     ECHO: 'ECHO',
+    GETBTN: 'GETBTN',
+    GETSERVO: 'GETSERVO',
+};
+
+const ActionCallOnGet = {
+    ECHO: 'ECHO',
+    SENDBTN: 'SENDBTN',
+    SENDSERVO: 'SENDSERVO',
+};
+
+const ActionCallOnConnection = {
+    ECHO: 'ECHO',
+    CONNECT: 'CONNECT',
 };
 
 /**
@@ -9,12 +22,18 @@ class ActionClass {
     /**
      * Конструктор класса
      * @param {*} action - действие
-     * @param {*} data - данные
+     * @param {*} id - id объекта
+     * @param {*} value - данные
      */
-    constructor(action, data) {
+    constructor(action, id, value) {
         this.action = action;
-        this.data = data;
+        this.id = id;
+        this.value = value;
     }
 }
 
-module.exports = {ActionCall, ActionClass};
+module.exports = {
+    ActionCallOnConnection,
+    ActionCallOnGet,
+    ActionCallOnSend,
+    ActionClass};

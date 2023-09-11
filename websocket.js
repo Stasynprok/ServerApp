@@ -1,4 +1,5 @@
 const onSend = require('./scripts/onSendMessage');
+const actions = require('./scripts/actions');
 const ws = require('ws');
 const url = require('url');
 
@@ -6,7 +7,7 @@ const clients = [];
 let unity;
 let arduino;
 
-const wss = new ws.Server({host: '192.168.1.7', port: 8080},
+const wss = new ws.Server({host: '192.168.1.5', port: 8080},
     () => console.log('Server started on 8080'));
 
 wss.on('connection', (ws, request) => onConnect(ws, request));
@@ -53,8 +54,13 @@ function onConnect(ws, request) {
  * Логика на отключение активного клиента unity от сервера
  */
 function onDisconnectUnity() {
-    unity = null;
-    console.log(unity);
+    if (clients.length > 0) {
+        unity = clients.shift();
+        // Отправка подтверждения подключения
+        actions.sendConnectionActionUnity(unity, 0, true);
+    } else {
+        unity = null;
+    }
 }
 
 /**

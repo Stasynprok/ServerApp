@@ -12,18 +12,41 @@ function onSendMessageUnity(message, arduino, unity) {
             const jsonMessage = JSON.parse(message);
             // Обработка запрашиваемого действия от клиента
             // eslint-disable-next-line max-len
-            console.log(`Unity message: ${jsonMessage.action}: ${jsonMessage.data}`);
+            console.log(`Unity message: ${jsonMessage.action}: ${jsonMessage.value}`);
 
             switch (jsonMessage.action) {
-            case act.ActionCall.ECHO:
+            // ECHO запрос
+            case act.ActionCallOnGet.ECHO:
                 if (arduino != null) {
-                    actions.echoActionUnity(arduino, jsonMessage.data);
+                    actions.echoActionUnity(arduino, 0, jsonMessage.value);
                 }
-
                 break;
+
+            // SENDBTN запрос
+            case act.ActionCallOnGet.SENDBTN:
+                if (arduino != null) {
+                    actions.getBTNActionUnity(
+                        arduino,
+                        jsonMessage.id,
+                        jsonMessage.value);
+                }
+                break;
+
+            // SENDSERVO запрос
+            case act.ActionCallOnGet.SENDSERVO:
+                if (arduino != null) {
+                    actions.getSERVOActionUnity(
+                        arduino,
+                        jsonMessage.id,
+                        jsonMessage.value);
+                }
+                break;
+
+            // Если пришла хуета
             default:
                 console.log('Unknown command from unity!!!');
                 unity.send('Unknown command!!!');
+                break;
             }
         } else {
             console.log('Unity message: empty');
@@ -45,18 +68,40 @@ function onSendMessageArduino(message, arduino, unity) {
             const jsonMessage = JSON.parse(message);
             // Обработка запрашиваемого действия от клиента
             // eslint-disable-next-line max-len
-            console.log(`Arduino message: ${jsonMessage.action}: ${jsonMessage.data}`);
+            console.log(`Arduino message: ${jsonMessage.action}: ${jsonMessage.value}`);
 
             switch (jsonMessage.action) {
-            case act.ActionCall.ECHO:
+            case act.ActionCallOnGet.ECHO:
                 if (unity != null) {
-                    actions.echoActionArduino(unity, jsonMessage.data);
+                    actions.echoActionArduino(unity, jsonMessage.value);
                     break;
                 }
 
+            // SENDBTN запрос
+            case act.ActionCallOnGet.SENDBTN:
+                if (unity != null) {
+                    actions.getBTNActionArduino(
+                        unity,
+                        jsonMessage.id,
+                        jsonMessage.value);
+                }
+                break;
+
+            // SENDSERVO запрос
+            case act.ActionCallOnGet.SENDSERVO:
+                if (unity != null) {
+                    actions.getSERVOActionArduino(
+                        unity,
+                        jsonMessage.id,
+                        jsonMessage.value);
+                }
+                break;
+
+            // Если пришла хуета
             default:
                 console.log('Unknown command from arduino!!!');
                 arduino.send('Unknown command!!!');
+                break;
             }
         } else {
             console.log('Arduino message: empty');
