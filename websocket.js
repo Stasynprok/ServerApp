@@ -28,10 +28,12 @@ function onConnect(ws, request) {
                     (message) =>
                         onSend.onSendMessageUnity( message, arduino, unity));
                 unity.on('close', onDisconnectUnity);
+                actions.sendConnectionActionUnity(unity, 0, true);
                 console.log('Unity client connect');
             } else {
                 console.log('Unity client push to queue');
                 clients.push(ws);
+                actions.sendConnectionActionUnity(ws, 1, true);
             }
         }
 
@@ -43,6 +45,7 @@ function onConnect(ws, request) {
                         onSend.onSendMessageArduino(message, arduino, unity));
                 arduino.on('close', onDisconnectArduino);
                 console.log('Arduino client connect');
+                actions.sendConnectionActionArduino(arduino, 0, true);
             }
         }
     } catch (error) {

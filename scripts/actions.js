@@ -41,7 +41,7 @@ function getSERVOActionUnity(arduino, id, value) {
 }
 
 /**
- * Действие при получении от ардуины SENDSERVO
+ * Действие при получении к серверу Unity
  * @param {*} unity - arduino клиент
  * @param {*} id - id объекта
  * @param {*} value - данные для отправки
@@ -93,6 +93,20 @@ function getSERVOActionArduino(unity, id, value) {
     unity.send(jsonFormat);
 }
 
+/**
+ * Действие при получении к серверу ардуины
+ * @param {*} arduino - arduino клиент
+ * @param {*} id - id объекта
+ * @param {*} value - данные для отправки
+ */
+function sendConnectionActionArduino(arduino, id, value) {
+    const jsonFormat =
+    JSON.stringify(
+        new classJson.ActionClass(
+            classJson.ActionCallOnConnection.CONNECT, id, value));
+    arduino.send(jsonFormat);
+}
+
 module.exports = {
     echoActionUnity,
     echoActionArduino,
@@ -101,4 +115,5 @@ module.exports = {
     getBTNActionArduino,
     getSERVOActionArduino,
     sendConnectionActionUnity,
+    sendConnectionActionArduino,
 };
