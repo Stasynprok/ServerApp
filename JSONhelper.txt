@@ -34,12 +34,12 @@
 {
     "action" : "CONNECT",
     "id" : "0",
-    "value" : "true"
+    "value" : "1"
 }
 
 // Отправка подтверждения соединения как ожидателя в очереди
 {
     "action" : "CONNECT",
     "id" : "1",
-    "value" : "true"
+    "value" : "1"
 }
